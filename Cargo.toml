@@ -1,0 +1,16 @@
+[package]
+name = "raster-cli"
+version = "0.1.0"
+license = "MIT"
+authors = ["kosinix <kosinix@users.noreply.github.com>"]
+exclude = [
+    "tests/*",
+]
+keywords = [
+    "raster", "cli", "image", "image-processing"
+]
+
+[dependencies]
+raster = "0.0.7"
+docopt = "0.6"
+rustc-serialize = "0.3"  # if you're using `derive(RustcDecodable)`
