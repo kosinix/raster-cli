@@ -11,6 +11,6 @@ keywords = [
 ]
 
 [dependencies]
-raster = "0.0.7"
+raster = "0.0.8"
 docopt = "0.6"
 rustc-serialize = "0.3"  # if you're using `derive(RustcDecodable)`
