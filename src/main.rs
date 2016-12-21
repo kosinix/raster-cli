@@ -12,7 +12,7 @@ Raster CLI Commands.
 Usage:
   raster-cli resize <src> <dest> <width> <height> [ <mode> ]
   raster-cli crop <src> <dest> <width> <height> [ <pos> <offx> <offy> ]
-  raster-cli rotate <src> <dest> <degrees> [ <bg_color> ]
+  raster-cli rotate <src> <dest> [--cc] <degrees> [ <bg> ]
   raster-cli (-h | --help)
   raster-cli (-v | --version)
 
@@ -36,10 +36,11 @@ struct Args {
     arg_offx: Option<i32>,
     arg_offy: Option<i32>,
     arg_degrees: Option<i32>,
-    arg_bg_color: Option<String>,
-    flag_json: bool,
+    arg_bg: Option<String>,
+    flag_json: bool, // return json
     flag_help: bool,
-    flag_version: bool,
+    flag_version: bool, // version info
+    flag_cc: bool, // rotate counter clockwise
 }
 
 fn main() {
@@ -97,10 +98,14 @@ fn main() {
         println!(" ");
         let src = args.arg_src.unwrap();
         let dest = args.arg_dest.unwrap();
-        let degrees = args.arg_degrees.unwrap();
-        let bg_color = args.arg_bg_color.unwrap_or("#000000".to_string());
+        let mut degrees = args.arg_degrees.unwrap();
+        let bg_color = args.arg_bg.unwrap_or("#000000".to_string());
         let bg_color = raster::Color::hex(bg_color.as_str()).unwrap();
         let mut image = raster::open(src.as_str()).unwrap();
+
+        if args.flag_cc {
+            degrees*=-1;
+        }
         match raster::transform::rotate(&mut image, degrees, bg_color) {
             Ok(_) => {
                 raster::save(&image, dest.as_str());
