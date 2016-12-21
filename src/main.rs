@@ -17,7 +17,7 @@ Usage:
   raster-cli (-v | --version)
 
 Options:
--j --json              Return result as JSON.
+    -j --json          Return result as JSON.
     -h --help          Show this screen.
     -v --version       Show version.
 ";
