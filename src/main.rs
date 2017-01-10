@@ -5,7 +5,7 @@ extern crate rustc_serialize;
 use docopt::Docopt;
 
 const VERSION: &'static str = "0.1.0";
-const RASTER: &'static str = "0.0.8";
+const RASTER: &'static str = "0.2.0";
 const USAGE: &'static str = "
 Raster CLI Commands.
 
@@ -58,16 +58,23 @@ fn main() {
         let dest = args.arg_dest.unwrap();
         let resize_w = args.arg_width.unwrap();
         let resize_h = args.arg_height.unwrap();
-        let mode = args.arg_mode.unwrap_or("fit".to_string());
-        
+        let mode = {
+            match args.arg_mode.unwrap().as_str() {
+                "fill" => raster::ResizeMode::Fill,
+                "exact" => raster::ResizeMode::Exact,
+                "exact_width" => raster::ResizeMode::ExactWidth,
+                "exact_height" => raster::ResizeMode::ExactHeight,
+                _ => raster::ResizeMode::Fit, 
+            }
+        };
         let mut image = raster::open(src.as_str()).unwrap();
-        match raster::editor::resize(&mut image, resize_w, resize_h, mode.as_str()) {
+        match raster::editor::resize(&mut image, resize_w, resize_h, mode) {
             Ok(_) => {
-                raster::save(&image, dest.as_str());
+                raster::save(&image, dest.as_str()).unwrap();
                 println!("Done!");
             },
             Err(s) => {
-                println!("Error: {}", s);
+                println!("Error: {:?}", s);
             }
         }
     } else if args.cmd_crop {
@@ -79,18 +86,30 @@ fn main() {
         let crop_w = args.arg_width.unwrap();
         let crop_h = args.arg_height.unwrap();
         // optionals
-        let pos = args.arg_pos.unwrap_or("center".to_string());
+        let pos = {
+            match args.arg_pos.unwrap().as_str() {
+                "top_left" => raster::PositionMode::TopLeft,
+                "top_center" => raster::PositionMode::TopCenter,
+                "top_right" => raster::PositionMode::TopRight,
+                "center_left" => raster::PositionMode::CenterLeft,
+                "center_right" => raster::PositionMode::CenterRight,
+                "bottom_left" => raster::PositionMode::BottomLeft,
+                "bottom_center" => raster::PositionMode::BottomCenter,
+                "bottom_right" => raster::PositionMode::BottomRight,
+                _ => raster::PositionMode::Center,
+            }
+        };
         let offx = args.arg_offx.unwrap_or(0);
         let offy = args.arg_offy.unwrap_or(0);
 
         let mut image = raster::open(src.as_str()).unwrap();
-        match raster::editor::crop(&mut image, crop_w, crop_h, pos.as_str(), offx, offy) {
+        match raster::editor::crop(&mut image, crop_w, crop_h, pos, offx, offy) {
             Ok(_) => {
-                raster::save(&image, dest.as_str());
+                raster::save(&image, dest.as_str()).unwrap();
                 println!("Done!");
             },
             Err(s) => {
-                println!("Error: {}", s);
+                println!("Error: {:?}", s);
             }
         }
     } else if args.cmd_rotate {
@@ -108,11 +127,11 @@ fn main() {
         }
         match raster::transform::rotate(&mut image, degrees, bg_color) {
             Ok(_) => {
-                raster::save(&image, dest.as_str());
+                raster::save(&image, dest.as_str()).unwrap();
                 println!("Done!");
             },
             Err(s) => {
-                println!("Error: {}", s);
+                println!("Error: {:?}", s);
             }
         }
     } else if args.flag_version {
