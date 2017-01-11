@@ -13,7 +13,7 @@ Raster CLI Commands.
 Usage:
   raster-cli crop <src> <dest> <width> <height> [ <pos> <offx> <offy> ]
   raster-cli resize <src> <dest> <width> <height> [ <resizemode> ]
-  raster-cli rotate <src> <dest> [--cc] <degrees> [ <bg> ] [-j]
+  raster-cli rotate <src> <dest> [--cc] <degrees> [ <bg> ]
   raster-cli (-h | --help)
   raster-cli (-v | --version)
 
