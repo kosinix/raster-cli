@@ -15,3 +15,10 @@ cargo build --target=i686-unknown-linux-musl
 ## 64 bit linux standalone
 rustup target add x86_64-unknown-linux-musl 
 cargo build --target=x86_64-unknown-linux-musl 
+
+# Temp Add Path
+cd raster-cli/target/debug
+set PATH=%PATH%;%CD%
+
+# Test
+cargo test -- --nocapture
