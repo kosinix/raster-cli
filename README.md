@@ -3,31 +3,21 @@
 Command line program for [Raster](https://github.com/kosinix/raster)
 
 ## Commands
-### Blend
-raster-cli blend <image1> <image2> [ <blendmode> <opacity> <pos> <offx> <offy> ]
+Usage:
+    raster-cli blend <image1> <image2> <dest> [ <blendmode> <opacity> <pos> <offx> <offy> --debug]
+    raster-cli crop <src> <dest> <width> <height> [ <pos> <offx> <offy> --debug]
+    raster-cli equal <image1> <image2> [--debug]
+    raster-cli fill <src> <dest> <fillcolor> [--debug]
+    raster-cli gamma <src> <dest> <gamma> [--debug]
+    raster-cli resize <src> <dest> <width> <height> [ <resizemode> --debug]
+    raster-cli rotate <src> <dest> [--cc] <degrees> [ <bg> --debug]
+    raster-cli similar <image1> <image2> [--debug]
+    raster-cli (-h | --help)
+    raster-cli (-v | --version)
 
-* image1 - The base image
-* image2 - The top image
-* blendmode - normal, difference, multiply, overlay, screen
-* opacity - 0.0 to 1.0
-* pos - top_left, top_center, top_right, center_left, center, center_right, bottom_left, bottom_center, bottom_right
-* offx - Negative or positive integer. Eg -100
-* offy - Negative or positive integer. Eg. 20
-
-### Crop
-raster-cli crop <src> <dest> <width> <height> [ <pos> <offx> <offy> ]
-
-### Resize
-raster-cli resize <src> <dest> <width> <height> [ <resizemode> ]
-
-### Rotate
-raster-cli rotate <src> <dest> [--cc] <degrees> [ <bg> ]
-
-### Help
-raster-cli (-h | --help)
-
-### Version
-raster-cli (-v | --version)
+Options:
+    -h --help          Show this screen.
+    -v --version       Show version.
 
 ## Installation
 
